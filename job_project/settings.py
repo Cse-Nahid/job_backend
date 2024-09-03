@@ -208,7 +208,7 @@ REST_AUTH_REGISTER_SERIALIZERS = {
     'REGISTER_SERIALIZER': 'accounts.serializers.CustomRegisterSerializer',
 }
 
-SITE_ID=2
+SITE_ID = 1
 
 # CORS_ORIGIN_WHITELIST = (
 #     "http://localhost:3000",
