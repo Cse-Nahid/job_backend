@@ -1,9 +1,9 @@
-from rest_framework.permissions import BasePermission
+from rest_framework import permissions
 
 
 
 # permission defined for job_seeker user
-class IsJobSeekerOrReadOnly(BasePermission):
+class IsJobSeekerOrReadOnly(permissions.BasePermission):
     def has_permission(self, request, view):
         print("User:", request.user)
 
@@ -35,7 +35,7 @@ class IsJobSeekerOrReadOnly(BasePermission):
 
     
 # permission defined for job-seeker type user
-class IsJobSeekerUser(BasePermission):
+class IsJobSeekerUser(permissions.BasePermission):
     def has_permission(self, request, view):
         if request.user and request.user.user_type == 'jobseeker':
             return True
