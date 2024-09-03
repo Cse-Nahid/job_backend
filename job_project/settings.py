@@ -34,7 +34,7 @@ SECRET_KEY = 'django-insecure-hcyp_2*c^ia-$lv4^$(n2q*s5-2ne7#f+u2ijbf@4aim3&ag@_
 DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
-CSRF_TRUSTED_ORIGINS = ['https://jobhunt-backend-r224.onrender.com','https://*.127.0.0.1']
+CSRF_TRUSTED_ORIGINS = ['https://job-backend-1s1n.onrender.com','https://*.127.0.0.1']
 
 LOGIN_URL = "http://127.0.0.1:5500/frontend/login.html"
 # Application definition
