@@ -35,8 +35,12 @@ DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 CSRF_TRUSTED_ORIGINS = ['https://job-backend-1s1n.onrender.com','https://*.127.0.0.1']
+# CSRF_TRUSTED_ORIGINS = [
+#     'https://job-backend-1s1n.onrender.com',
+#     'http://127.0.0.1:5501'
+# ]
 
-LOGIN_URL = "http://127.0.0.1:5500/frontend/login.html"
+LOGIN_URL = "http://127.0.0.1:5501/login.html" 
 # Application definition
 
 INSTALLED_APPS = [
