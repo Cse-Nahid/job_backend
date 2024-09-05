@@ -34,13 +34,20 @@ SECRET_KEY = 'django-insecure-hcyp_2*c^ia-$lv4^$(n2q*s5-2ne7#f+u2ijbf@4aim3&ag@_
 DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
-CSRF_TRUSTED_ORIGINS = ['https://job-backend-1s1n.onrender.com','https://127.0.0.1']
-# CSRF_TRUSTED_ORIGINS = [
-#     'https://job-backend-1s1n.onrender.com',
-#     'http://127.0.0.1:5501'
-# ]
+CORS_ALLOW_ALL_ORIGINS = True
+# CSRF_TRUSTED_ORIGINS = ['https://job-backend-1s1n.onrender.com','https://127.0.0.1']
+# LOGIN_URL = "http://127.0.0.1:5501/login.html" 
+CSRF_TRUSTED_ORIGINS = [
+    'https://job-backend-1s1n.onrender.com',
+    'http://127.0.0.1:8000',
+    'http://localhost:8000',
+]
 
-LOGIN_URL = "http://127.0.0.1:5501/login.html" 
+CORS_ORIGIN_WHITELIST = (
+    "http://localhost:3000",
+    "http://localhost:8000",
+)
+
 # Application definition
 
 INSTALLED_APPS = [

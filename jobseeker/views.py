@@ -131,4 +131,4 @@ class JobSeekerDataByUserIDView(APIView):
         serializer = JobSeekerSerializer(user)
         print('user:', serializer.data)
 
-        return Response(serializer.data, status=status.HTTP_200_OK)-
+        return Response(serializer.data, status=status.HTTP_200_OK)

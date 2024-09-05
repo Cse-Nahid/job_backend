@@ -14,12 +14,14 @@ django-environ
 django-filter
 djangorestframework
 filelock
+gunicorn
 idna
 MouseInfo
 mysql-connector-python
 numpy
 open-cv-plus
 opencv-contrib-python
+packaging
 pillow
 pipenv
 platformdirs
@@ -37,3 +39,4 @@ sqlparse
 tzdata
 urllib3
 virtualenv
+waitress
