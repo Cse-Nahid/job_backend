@@ -1,10 +1,10 @@
 from django.urls import path, include
-
 from .views import JobPostListView, JobPostPublishView, JobPostDetailView, JobPostForAnEmployerAPIView, JobPostsOfJobCategoryAPIView
 
-
+from . import views
 
 urlpatterns = [
+    # path('', views.job_post_views, name='job_post_list'),
     path("all/", JobPostListView.as_view(), name="post_list"),
     path("all/<int:pk>/", JobPostDetailView.as_view(), name="post_detail"),
 

@@ -14,7 +14,7 @@ urlpatterns = [
     path('catagory/', include('job_catagory.urls')),
     path('job_post/', include('job_post.urls')),
     path('jobseeker/', include('jobseeker.urls')),
-    path('job_post/', include('job_post.urls')),
+    # path('job_post/', include('job_post.urls')),
     path('service/', include('service.urls')),
     
     # to implement authentication facility only in DRF panel
