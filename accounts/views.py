@@ -70,8 +70,14 @@ class LoginAPIView(APIView):
 
 
 # creating views for logout functionality
+# class LogoutAPIView(APIView):
+#     def get(self, request):
+#         logout(request)
+#         # return redirect('user_login')
+#         return Response('Logout successful.')
+
+
 class LogoutAPIView(APIView):
-    def get(self, request):
+    def post(self, request):
         logout(request)
-        # return redirect('user_login')
-        return Response('Logout successful.')
+        return Response({"success": True, "message": "Logout successful."}, status=status.HTTP_200_OK)
