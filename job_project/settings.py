@@ -37,19 +37,21 @@ ALLOWED_HOSTS = ["*"]
 CORS_ALLOW_ALL_ORIGINS = True
 # CSRF_TRUSTED_ORIGINS = ['https://job-backend-1s1n.onrender.com','https://127.0.0.1']
 # LOGIN_URL = "http://127.0.0.1:5501/login.html" 
+# CSRF settings
 CSRF_TRUSTED_ORIGINS = [
     'https://job-backend-1s1n.onrender.com',
     'http://127.0.0.1:8000',
     'http://localhost:8000',
-]
-
-CORS_ORIGIN_WHITELIST = (
-    "http://localhost:3000",
-    "http://localhost:8000",
-)
-CORS_ALLOWED_ORIGINS = [
     'http://127.0.0.1:5501',
 ]
+
+# CORS_ORIGIN_WHITELIST = (
+#     "http://localhost:3000",
+#     "http://localhost:8000",
+# )
+# CORS_ALLOWED_ORIGINS = [
+#     'http://127.0.0.1:5501',
+# ]
 # Application definition
 
 INSTALLED_APPS = [
@@ -88,16 +90,16 @@ INSTALLED_APPS = [
     'service',
 ]
 
+# Middleware
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    "corsheaders.middleware.CorsMiddleware",
-    "django.middleware.common.CommonMiddleware",
     'allauth.account.middleware.AccountMiddleware',
 ]
 
@@ -223,10 +225,4 @@ REST_AUTH_REGISTER_SERIALIZERS = {
 
 SITE_ID = 1
 
-# CORS_ORIGIN_WHITELIST = (
-#     "http://localhost:3000",
-#     "http://localhost:8000",
-# )
-
-# CSRF_TRUSTED_ORIGINS = ["http://localhost:3000"]
 
