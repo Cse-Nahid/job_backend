@@ -12,6 +12,7 @@ from django.http import Http404
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from employer.permissions import IsEmployerOrReadOnly, IsEmployerUser
 from .permissions import IsOwnerOrReadOnly
+from rest_framework.permissions import IsAuthenticated
 
 
     
@@ -40,29 +41,54 @@ class JobPostPublishView(APIView):
 
 
     # to add a post
-    def post(self, request, format = None):
-        print('PostList  --->> inside POST ')
-        print(request.data)
+    # def post(self, request, format = None):
+    #     print('PostList  --->> inside POST ')
+    #     print(request.data)
 
-        serializer = JobPostSerializer(data = request.data)
+    #     serializer = JobPostSerializer(data = request.data)
 
-        if serializer.is_valid():
-            # Get the Employer instance of the current user
-            # employer = Employer.objects.get(user=request.user)
+    #     if serializer.is_valid():
+    #         # Get the Employer instance of the current user
+    #         employer = Employer.objects.get(user=request.user)
 
-            employer_id = request.query_params.get('employer_id')
-            employer = get_object_or_404(Employer, id = employer_id)
+    #         employer_id = request.query_params.get('employer_id')
+    #         employer = get_object_or_404(Employer, id = employer_id)
 
-            print('employer:', employer, 'user_type:', employer.user.user_type)
+    #         print('employer:', employer, 'user_type:', employer.user.user_type)
 
-            serializer.save(employer=employer)
+    #         serializer.save(employer=employer)
 
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+    #         return Response(serializer.data, status=status.HTTP_201_CREATED)
         
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    #     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
 
+class JobPostPublishView(APIView):
+    serializer_class = JobPostSerializer
+    permission_classes = [IsAuthenticated]  # Ensure the user is authenticated
 
+    def post(self, request, format=None):
+        try:
+            # Attempt to retrieve the employer based on the logged-in user
+            employer = get_object_or_404(Employer, user=request.user)
+        except Http404:
+            return Response({"detail": "Employer not found for the current user."}, status=status.HTTP_404_NOT_FOUND)
+
+        # Prepare the data to save, including the employer field
+        data = request.data.copy()  # Make a mutable copy of the request data
+        data['employer'] = employer.id  # Set the employer ID
+
+        serializer = JobPostSerializer(data=data)  # Pass the modified data
+
+        if serializer.is_valid():
+            serializer.save()  # Save the job post
+            success_message = {
+                "message": "Job post created successfully.",
+                "job_post": serializer.data  # Include created job post data
+            }
+            return Response(success_message, status=status.HTTP_201_CREATED)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 # job post detail view set

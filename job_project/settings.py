@@ -10,11 +10,16 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
+
 from pathlib import Path
 
 import environ
+
 env = environ.Env()
 environ.Env.read_env()
+
+SECRET_KEY = env('SECRET_KEY')
+
 
 
 
@@ -28,7 +33,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-hcyp_2*c^ia-$lv4^$(n2q*s5-2ne7#f+u2ijbf@4aim3&ag@_'
+# SECRET_KEY = 'django-insecure-hcyp_2*c^ia-$lv4^$(n2q*s5-2ne7#f+u2ijbf@4aim3&ag@_'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -128,12 +133,26 @@ WSGI_APPLICATION = 'job_project.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'job_project', 
+        'USER': 'postgres',
+        'PASSWORD': '12345',
+        'HOST': '127.0.0.1', 
+        'PORT': '5432',
     }
 }
+
+
+
 
 # REST_FRAMEWORK = {
 #     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],

@@ -16,7 +16,7 @@ class JobPostSerializer(serializers.ModelSerializer):
     # employer = serializers.StringRelatedField(many=False)
 
     # to see the full details of employer
-    employer = EmployerSerializer(read_only=True)
+    # employer = EmployerSerializer(read_only=True)
     
     # job_category = serializers.StringRelatedField(many=True)
 
@@ -26,5 +26,5 @@ class JobPostSerializer(serializers.ModelSerializer):
         fields = '__all__'
         
         # to automatically set the employer based on the currently authenticated user.      # by making 'employer' read_only, we dont need to provide it from the frontend form
-        read_only_fields = ["employer",]
+        # read_only_fields = ["employer",]
         
