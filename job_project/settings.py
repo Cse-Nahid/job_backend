@@ -10,7 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
-
+import os
 from pathlib import Path
 import environ
 
@@ -38,12 +38,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ['job-backend-d276.onrender.com']
+
 CORS_ALLOW_ALL_ORIGINS = True
 # CSRF_TRUSTED_ORIGINS = ['https://job-backend-1s1n.onrender.com','https://127.0.0.1']
 # LOGIN_URL = "http://127.0.0.1:5501/login.html" 
 # CSRF settings
 CSRF_TRUSTED_ORIGINS = [
-    # 'https://job-backend-1s1n.onrender.com',
+    'https://job-backend-d276.onrender.com',
     'http://127.0.0.1:8000',
     'http://localhost:8000',
     'http://127.0.0.1:5501',
