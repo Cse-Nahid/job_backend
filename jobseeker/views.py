@@ -23,6 +23,10 @@ from django.template.loader import render_to_string
 
 
 from accounts.models import CustomUser
+from .models import Jobseeker  # If 'jobseeker' is a model
+
+
+
 
 User = get_user_model()
 
@@ -123,7 +127,7 @@ class JobSeekerDataByUserIDView(APIView):
             return Response({'error': 'User ID is required'}, status=status.HTTP_400_BAD_REQUEST)
         
         try:
-            user = jobseeker.objects.get(user=user_id)
+            user = Jobseeker.objects.get(user=user_id)
         except User.DoesNotExist:
             return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
 

@@ -1,4 +1,4 @@
-<div>
+{% comment %} <div>
   <h2>Hello {{user.username}},</h2>
 
   <h3>Thanks for creating an "employer" account on our job portal.</h3>
@@ -8,4 +8,19 @@
     Confirmation Link :
     <a href="{{confirm_link}}" target="_blank">{{confirm_link}}</a>
   </p>
-</div>
+</div> {% endcomment %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Verify Your Employer Account</title>
+</head>
+<body>
+    <h2>Hello {{ user.first_name }}!</h2>
+    <p>Thank you for registering as an employer on Job Hunt.</p>
+    <p>Please verify your email to activate your account:</p>
+    {% comment %} <a href="{{ confirm_link }}">Verify Email</a> {% endcomment %}
+    <p>Confirmation Link : <a href="{{confirm_link}}" target="_blank">{{confirm_link}}</a></p>
+    <p>If you did not register, please ignore this email.</p>
+</body>
+</html>

@@ -1,22 +1,37 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from .views import EmployerViewSet, EmployerRegistrationAPIView, activate, EmployerDataByUserIDView
-# from employer.permissions import IsEmployerOrReadOnly, IsEmployerUser
+from .views import (
+    EmployerRegistrationView,
+    EmployerDashboardView,
+    EmployerApplicationsView,
+    EmployerProfileDetailView,
+    EmployerProfileUpdateView,
+    EmployerProfileViewSet,
+    EmailVerificationView,
+)
 
-
-# Create a router
+# Initialize the router for ViewSets
 router = DefaultRouter()
+router.register(r'profiles', EmployerProfileViewSet, basename='employer-profile')
 
-# register ViewSets with the router.
-router.register('list', EmployerViewSet)
-
-
-# The API URLs are now determined automatically by the router.
 urlpatterns = [
+    # Authentication URLs
+    path('auth/', include('dj_rest_auth.urls')),
+    path('auth/registration/', EmployerRegistrationView.as_view(), name='employer-register'),
+    # Email Verification URL
+    path('verify-email/<uidb64>/<token>/', EmailVerificationView.as_view(), name='email-verification'),
+    # Dashboard URL
+    path('dashboard/', EmployerDashboardView.as_view(), name='employer-dashboard'),
+
+    # Applications URL
+    path('applications/', EmployerApplicationsView.as_view(), name='employer-applications'),
+
+    # Profile Detail and Update URLs
+    path('profile/', EmployerProfileDetailView.as_view(), name='employer-profile-detail'),
+    path('profile/edit/', EmployerProfileUpdateView.as_view(), name='employer-profile-update'),
+
+    # Include router-generated URLs
     path('', include(router.urls)),
 
-    path('register/', EmployerRegistrationAPIView.as_view(), name='employer_register'),
-    path('active/<user_id>/<token>/', activate, name='employer_account_activate'),
 
-    path('by_user_id/', EmployerDataByUserIDView.as_view(), name='employer_by_user_id'),
 ]

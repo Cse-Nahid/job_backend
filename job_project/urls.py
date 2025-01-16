@@ -10,12 +10,12 @@ urlpatterns = [
     path('accounts/', include('accounts.urls')),
     path('contact_us/', include('contact_us.urls')),
     path('employer/', include('employer.urls')),
-    path('job_application/', include('job_application.urls')),
-    path('catagory/', include('job_catagory.urls')),
-    path('job_post/', include('job_post.urls')),
-    path('jobseeker/', include('jobseeker.urls')),
+    path('applications/', include('applications.urls')),
+    # path('catagory/', include('job_catagory.urls')),
     # path('job_post/', include('job_post.urls')),
-    path('service/', include('service.urls')),
+    path('jobseeker/', include('jobseeker.urls')),
+    path('jobs/', include('jobs.urls')),
+    # path('service/', include('service.urls')),
     
     # to implement authentication facility only in DRF panel
     path("api-auth/", include("rest_framework.urls")),

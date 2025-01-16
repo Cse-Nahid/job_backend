@@ -88,11 +88,12 @@ INSTALLED_APPS = [
     'accounts',
     'contact_us',
     'employer',
-    'job_application',
-    'job_catagory',
-    'job_post',
+    'applications',
+    # 'job_post',
+    # 'job_catagory',
+    'jobs',
     'jobseeker',
-    'service',
+    # 'service',
 ]
 
 # Middleware
@@ -244,4 +245,4 @@ REST_AUTH_REGISTER_SERIALIZERS = {
 
 SITE_ID = 1
 
-
+AUTH_USER_MODEL = "accounts.CustomUser"

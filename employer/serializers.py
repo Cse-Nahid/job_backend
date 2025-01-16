@@ -1,88 +1,51 @@
 from rest_framework import serializers
-from .models import Employer
-
-from django.contrib.auth import get_user_model
+from django.contrib.auth import get_user_model, authenticate
+from .models import EmployerProfile
 
 User = get_user_model()
 
-
-
-
-class UserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = ['username', 'first_name', 'last_name', 'email', 'user_type']
-
-
-
-class EmployerSerializer(serializers.ModelSerializer):
-    # StringRelatedField for nested serializers, to only show the user name, not the whole user object data
-    # user = serializers.StringRelatedField(many=False)
-
-    # to view the user account details too
-    user = UserSerializer(read_only=True)
+class EmployerProfileSerializer(serializers.ModelSerializer):
+    user = serializers.StringRelatedField(many=False)
 
     class Meta:
-        model = Employer
-        fields = '__all__'
+        model = EmployerProfile
+        fields = "__all__"
 
-
-
-
-# crating serializer for user registration
 class EmployerRegistrationSerializer(serializers.ModelSerializer):
-    company_name = serializers.CharField(max_length=50)
-    company_address = serializers.CharField()
-    business_info = serializers.CharField()
-    
-    confirm_password = serializers.CharField(max_length=20, required=True)
-
+    email = serializers.EmailField(required=True)
+    password = serializers.CharField(write_only=True, required=True)
+    confirm_password = serializers.CharField(write_only=True, required=True)
+    first_name = serializers.CharField(required=True)
+    last_name = serializers.CharField(required=True)
 
     class Meta:
         model = User
-        fields = [
-            'username', 'first_name', 'last_name', 'company_name', 'company_address', 'business_info', 'email', 'password', 'confirm_password'
-        ]
+        fields = ["username", "email", "password", "confirm_password", "first_name", "last_name"]
 
+    def validate(self, data):
+        if data['password'] != data['confirm_password']:
+            raise serializers.ValidationError("Passwords do not match.")
+        return data
 
-    def save(self):
-        username = self.validated_data['username']
-        first_name = self.validated_data['first_name']
-        last_name = self.validated_data['last_name']
-        company_name = self.validated_data['company_name']
-        company_address = self.validated_data['company_address']
-        business_info = self.validated_data['business_info']
-
-        email = self.validated_data['email']
-        password = self.validated_data['password']
-        confirm_password = self.validated_data['confirm_password']
-
-        if password != confirm_password:
-            raise serializers.ValidationError({'error' : "Password Doesn't Matched."})
-        
-        if User.objects.filter(email = email, user_type = 'employer').exists():
-            raise serializers.ValidationError({'error' : "Email Already Exists."})
-        
-        account = User(
-            username = username, first_name = first_name, last_name = last_name, email = email, 
-            user_type = 'employer',
+    def create(self, validated_data):
+        user = User.objects.create_user(
+            username=validated_data['username'],
+            email=validated_data['email'],
+            password=validated_data['password']
         )
-        print(account)
-        account.set_password(password)
-
-        account.is_active = False   # initially set to False, will be true after activation link validation
-
-        account.save()
-
-
-        employer_account = Employer(
-            user = account,
-
-            company_name = company_name, company_address = company_address, business_info = business_info
+        EmployerProfile.objects.create(
+            user=user,
+            first_name=validated_data['first_name'],
+            last_name=validated_data['last_name']
         )
+        return user
 
-        employer_account.save()
+class EmployerLoginSerializer(serializers.Serializer):
+    username = serializers.CharField(required=True)
+    password = serializers.CharField(required=True)
 
-        # returning the customUser account of employer_account object model to use in the registrationViewSet
-        return account
-    
+    def validate(self, data):
+        user = authenticate(username=data['username'], password=data['password'])
+        if not user:
+            raise serializers.ValidationError("Invalid credentials")
+        return data

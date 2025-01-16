@@ -1,48 +1,22 @@
-from rest_framework import permissions
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from rest_framework.permissions import IsAuthenticated
+from .permissions import IsEmployerOrReadOnly, IsEmployerUser
+
+class JobPostView(APIView):
+    permission_classes = [IsAuthenticated, IsEmployerOrReadOnly]
+
+    def get(self, request):
+        # All users can view job posts
+        return Response({"message": "Anyone can view this job post."})
+
+    def post(self, request):
+        # Only employers can create a job post
+        return Response({"message": "Job post created."})
 
 
-# permission defined for employer user
-class IsEmployerOrReadOnly(permissions.BasePermission):
-    def has_permission(self, request, view):
-        # all the viewer (if users are not authenticated) can view
-        if request.method in permissions.SAFE_METHODS:
-            return True
-        # also, the Authenticated users & employer only can see list view
-        if request.user.is_authenticated and request.user.user_type == 'employer':
-            return True
-        else:
-            return False
-    
-    
-    # N.B.: the below declared 'has_object_permission' function will only execute if the above created 'has_permission' function returns True
+class EmployerDashboardView(APIView):
+    permission_classes = [IsAuthenticated, IsEmployerUser]
 
-    def has_object_permission(self, request, view, obj):
-        # providing read permission (GET, HEAD or options request)  by allowing SAFE_METHODS to all users
-        if request.method in permissions.SAFE_METHODS:
-            return True
-        else:
-            # providing Write permission (PUT or PATCH)  only to  the employer of a post
-            if request.user.user_type == 'employer':
-                return True
-            else:
-                return False
-    
-
-    
-
-
-# permission defined for employer type user
-class IsEmployerUser(permissions.BasePermission):
-    def has_permission(self, request, view):
-        if request.user and request.user.user_type == 'employer':
-            return True
-        else:
-            return False
-        
-# permission defined for Admin type user
-class IsAdminUser(permissions.BasePermission):
-    def has_permission(self, request, view):
-        if request.user and request.user.user_type == 'admin':
-            return True
-        else:
-            return False
+    def get(self, request):
+        return Response({"message": "Welcome to the employer dashboard!"})
