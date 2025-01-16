@@ -12,7 +12,6 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 
 from pathlib import Path
-
 import environ
 
 env = environ.Env()
@@ -44,7 +43,7 @@ CORS_ALLOW_ALL_ORIGINS = True
 # LOGIN_URL = "http://127.0.0.1:5501/login.html" 
 # CSRF settings
 CSRF_TRUSTED_ORIGINS = [
-    'https://job-backend-1s1n.onrender.com',
+    # 'https://job-backend-1s1n.onrender.com',
     'http://127.0.0.1:8000',
     'http://localhost:8000',
     'http://127.0.0.1:5501',
